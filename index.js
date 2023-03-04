@@ -7,14 +7,20 @@ const dealButton = document.getElementById("Deal")
 const liveDisplay = document.getElementById("Live")
 
 
+// declare live number variable globally
+let liveNum
+
+
 // generate random number to predict from
-let liveNum; 
+function randomLive() {
+    liveNum = Math.floor(Math.random() * 99) + 1;
+}
 
 
 // add click event to deal button
 dealButton.addEventListener("click", function() {
     
-    random()
+    randomLive()
     
     // log to test
     console.log(liveNum);
@@ -22,10 +28,6 @@ dealButton.addEventListener("click", function() {
     // set live display to show the random liveNum
     liveDisplay.innerHTML = liveNum
 })
-
-function random() {
-    liveNum = Math.floor(Math.random() * 100) + 1;
-}
 
 
 // select and store the new display in variable
@@ -35,51 +37,71 @@ const newDisplay = document.getElementById("New")
 // select and store the higher button in variable
 const higherButton = document.getElementById("Higher")
 
+// declare new number variable globally
+let newNum
+
 
 // generate new number to compare against live number
-let newNum = Math.floor(Math.random() * 100) + 1
+function randomNew() {
+    newNum = Math.floor(Math.random() * 99) + 1;
+}
 
 
 // add click event to higher button
 higherButton.addEventListener("click", function() {
+
+    randomNew()
 
     // log to test
     console.log(newNum);
 
     // set new display to show the random newNum
     newDisplay.innerHTML = newNum
-
-    playerScore = Math.abs(newNum - liveNum)
-    computerScore = Math.abs(newNum - liveNum)
-
+    // let playerScore = 0
+    // let computerScore = 0
+    let winningPoints = 0
+    
+    
     // determine the round's winner
     if (newNum > liveNum) {
         console.log("You win");
-        result.innerHTML = "Correct! You win " + playerScore + " points!"
+        winningPoints = Math.abs(newNum - liveNum)
+        playerScore.innerHTML = Number(playerScore.innerHTML) + winningPoints 
+        result.innerHTML = "Correct! You win " + winningPoints + " points!"
+        // console.log(playerScore);
         // playerWinsRound()
     }
     else if (liveNum > newNum) {
         console.log("Computer wins");
-        result.innerHTML = "Wrong! Computer wins " + playerScore + " points!"
+        winningPoints = Math.abs(newNum - liveNum)
+        computerScore.innerHTML = Number(computerScore.innerHTML) + winningPoints
+        result.innerHTML = "Wrong! Computer wins " + winningPoints + " points!"
+        // console.log(computerScore);
         // computerWinsRound()
     }
     else {
         console.log("Tie");
         result.innerHTML = "Tie! No winner. Play again!"
     }
+    
+    // randomNew()
+    // console.log(newNum);
 
+    // randomLive()
+    // liveDisplay.innerHTML = liveNum
+    // console.log(liveNum);
     // reset round -- create another button and assign as click event
     // setTimeout(resetRound(), 5000)
 })
 
 
 // select and store the player score and computer score in separate variables
-let playerScore;
+// let playerScore;
 
-let computerScore;
+// let computerScore;
 
 
-// define point calculator
+// define point calculator -- moved inside of click event for higher + lower buttons
 // let pointCalculator = Math.abs(newNum - liveNum)
 
 
@@ -131,6 +153,8 @@ let computerScore;
 
 // select and store result in variable
 const result = document.getElementById("Result")
+let playerScore = document.getElementById("Player")
+let computerScore = document.getElementById("Computer")
 
 
 // define how to determine the round's winner if higher is selected
@@ -178,24 +202,34 @@ const lowerButton = document.getElementById("Lower")
 // add click event to lower button
 lowerButton.addEventListener("click", function() {
 
+    randomNew()
+
     // log to test
     console.log(newNum);
 
     // set new display to show the random newNum
     newDisplay.innerHTML = newNum
 
-    playerScore = Math.abs(newNum - liveNum)
-    computerScore = Math.abs(newNum - liveNum)
+    // let playerScore 
+    // let computerScore
+    let winningPoints = 0
+
+    // document.getElementById("Player").innerHTML = playerScore
+    // document.getElementById("Computer").innerHTML = computerScore
 
     // determine the round's winner
     if (newNum < liveNum) {
         console.log("You win");
-        result.innerHTML = "Correct! You win " + playerScore + " points!"
+        winningPoints = Math.abs(newNum - liveNum)
+        playerScore.innerHTML = Number(playerScore.innerHTML) + winningPoints
+        result.innerHTML = "Correct! You win " + winningPoints + " points!"
         // playerWinsRound()
     }
     else if (liveNum < newNum) {
         console.log("Computer wins");
-        result.innerHTML = "Wrong! Computer wins " + playerScore + " points!"
+        winningPoints = Math.abs(newNum - liveNum)
+        computerScore.innerHTML = Number(computerScore.innerHTML) + winningPoints
+        result.innerHTML = "Wrong! Computer wins " + winningPoints + " points!"
         // computerWinsRound()
     }
     else {
@@ -205,6 +239,25 @@ lowerButton.addEventListener("click", function() {
 
     // reset round
     // setTimeout(resetRound(), 5000)
+})
+
+
+
+// select and store the next round button in variable
+const nextButton = document.getElementById("Next")
+
+
+// add click event to next button
+nextButton.addEventListener("click", function() {
+
+    // clear live display
+    liveDisplay.innerHTML = "-"
+    
+    // clear new display
+     newDisplay.innerHTML = "-"
+
+    // clear result
+    result.innerHTML = ""
 })
 
 function resetRound() {
